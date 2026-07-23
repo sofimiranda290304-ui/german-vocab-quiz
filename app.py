@@ -105,13 +105,16 @@ st.markdown(
     }}
 
     /* Con layout="wide", esto controla cuánto ancho usa el contenido.
-       Se usa vw para que se adapte al ancho real de la pantalla. */
-    .block-container {{
-        max-width: 100vw;
-        padding-top: 2.5em;
-        padding-left: 1.5em;
-        padding-right: 1.5em;
-        margin: 0 auto;
+       Se usa !important porque Streamlit aplica su propio max-width
+       como estilo inline, que si no lo forzamos, gana siempre. */
+    .block-container,
+    [data-testid="stMainBlockContainer"],
+    [data-testid="stAppViewBlockContainer"] {{
+        max-width: 96vw !important;
+        padding-top: 2.5em !important;
+        padding-left: 1.5em !important;
+        padding-right: 1.5em !important;
+        margin: 0 auto !important;
     }}
 
     div.stButton > button {{
