@@ -30,13 +30,23 @@ THEME = {
     # Tipografia: cualquier nombre valido de Google Fonts
     "font": "Poppins",
 
-    # Colores generales
-    "background": "#F5F6F3",
+    # Colores generales.
+    # Formato: color solido "#RRGGBB", o un degradado CSS completo, ej:
+    # "linear-gradient(135deg, #FDEBF3 0%, #F6A8C4 50%, #C77DD6 100%)"
+    "background": "linear-gradient(135deg, #FDEBF3 0%, #F6C8DC 50%, #E9AEE0 100%)",
     "text_color": "#1A1A1A",
 
     # Tarjetas de la pantalla de NIVEL (A1 / A2 / B1)
-    "nivel_card_color": "#8FAF9F",
-    "nivel_card_text": "#0E2A20",
+    "nivel_card_bg": "#FDF4FB",        # fondo de la tarjeta (claro)
+    "nivel_card_text": "#4C1D95",      # color del texto "A1", "A2", "B1"
+    "nivel_card_height": "420px",      # alto de la tarjeta
+    "nivel_pill_color": "#F472B6",     # fondo de la "píldora" con el subtítulo
+    "nivel_pill_text": "#4C1D95",      # texto de la píldora
+    "nivel_subtitulos": {              # texto que aparece dentro de la píldora
+        "A1": "Elemental",
+        "A2": "Básico",
+        "B1": "Intermedio",
+    },
 
     # Tarjetas de la pantalla de CATEGORIA (Verbos / Sustantivos / ...)
     "categoria_card_color": "#7C9885",
@@ -90,7 +100,7 @@ st.markdown(
         font-family: '{THEME["font"]}', sans-serif;
     }}
     .stApp {{
-        background-color: {THEME["background"]};
+        background: {THEME["background"]};
         color: {THEME["text_color"]};
     }}
 
@@ -113,11 +123,56 @@ st.markdown(
         color: {THEME["primary_button_text"]};
     }}
 
-    .st-key-nivel_row div.stButton > button {{
-        background-color: {THEME["nivel_card_color"]};
+    .st-key-card_A1 div.stButton > button,
+    .st-key-card_A2 div.stButton > button,
+    .st-key-card_B1 div.stButton > button {{
+        background-color: {THEME["nivel_card_bg"]};
         color: {THEME["nivel_card_text"]};
-        height: 5.5em;
-        font-size: 1.3em;
+        height: {THEME["nivel_card_height"]};
+        font-size: 2.1em;
+        font-weight: 800;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 1.4em;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.10);
+    }}
+    .st-key-card_A1 div.stButton > button:hover,
+    .st-key-card_A2 div.stButton > button:hover,
+    .st-key-card_B1 div.stButton > button:hover {{
+        box-shadow: 0 14px 30px rgba(0,0,0,0.16);
+        transform: translateY(-2px);
+    }}
+    .st-key-card_A1 div.stButton > button::after {{
+        content: "{THEME["nivel_subtitulos"].get("A1", "")}";
+        margin-top: 0.6em;
+        background: {THEME["nivel_pill_color"]};
+        color: {THEME["nivel_pill_text"]};
+        padding: 0.35em 1.1em;
+        border-radius: 999px;
+        font-size: 0.42em;
+        font-weight: 700;
+    }}
+    .st-key-card_A2 div.stButton > button::after {{
+        content: "{THEME["nivel_subtitulos"].get("A2", "")}";
+        margin-top: 0.6em;
+        background: {THEME["nivel_pill_color"]};
+        color: {THEME["nivel_pill_text"]};
+        padding: 0.35em 1.1em;
+        border-radius: 999px;
+        font-size: 0.42em;
+        font-weight: 700;
+    }}
+    .st-key-card_B1 div.stButton > button::after {{
+        content: "{THEME["nivel_subtitulos"].get("B1", "")}";
+        margin-top: 0.6em;
+        background: {THEME["nivel_pill_color"]};
+        color: {THEME["nivel_pill_text"]};
+        padding: 0.35em 1.1em;
+        border-radius: 999px;
+        font-size: 0.42em;
+        font-weight: 700;
     }}
 
     .st-key-categoria_col div.stButton > button {{
@@ -333,18 +388,18 @@ st.markdown(
 # ==========================================================================
 
 if st.session_state.vista == "nivel":
-    with st.container(key="nivel_row"):
-        cols = st.columns(3)
-        for col, nivel in zip(cols, NIVELES):
-            tarjetas_n, _ = cargar_nivel(nivel)
-            with col:
+    cols = st.columns(3)
+    for col, nivel in zip(cols, NIVELES):
+        tarjetas_n, _ = cargar_nivel(nivel)
+        with col:
+            with st.container(key=f"card_{nivel}"):
                 if st.button(nivel, key=f"btn_nivel_{nivel}"):
                     ir_a("categoria", nivel_elegido=nivel)
                     st.rerun()
-                if not tarjetas_n:
-                    st.caption("Sin contenido todavía")
-                else:
-                    st.caption(f"{len(tarjetas_n)} palabras")
+            if not tarjetas_n:
+                st.caption("Sin contenido todavía")
+            else:
+                st.caption(f"{len(tarjetas_n)} palabras")
     st.stop()
 
 # ==========================================================================
