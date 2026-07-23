@@ -107,7 +107,7 @@ st.markdown(
     /* Con layout="wide", esto controla cuánto ancho usa el contenido.
        Se usa vw para que se adapte al ancho real de la pantalla. */
     .block-container {{
-        max-width: 96vw;
+        max-width: 100vw;
         padding-top: 2.5em;
         padding-left: 1.5em;
         padding-right: 1.5em;
