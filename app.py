@@ -104,12 +104,13 @@ st.markdown(
         color: {THEME["text_color"]};
     }}
 
-    /* Con layout="wide", esto controla cuánto ancho usa el contenido */
+    /* Con layout="wide", esto controla cuánto ancho usa el contenido.
+       Se usa vw para que se adapte al ancho real de la pantalla. */
     .block-container {{
-        max-width: 1100px;
+        max-width: 96vw;
         padding-top: 2.5em;
-        padding-left: 2em;
-        padding-right: 2em;
+        padding-left: 1.5em;
+        padding-right: 1.5em;
         margin: 0 auto;
     }}
 
@@ -397,7 +398,7 @@ st.markdown(
 # ==========================================================================
 
 if st.session_state.vista == "nivel":
-    cols = st.columns(3, gap="medium")
+    cols = st.columns(3, gap="small")
     for col, nivel in zip(cols, NIVELES):
         tarjetas_n, _ = cargar_nivel(nivel)
         with col:
