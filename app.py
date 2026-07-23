@@ -85,7 +85,7 @@ CATEGORIAS_LABELS = {
     "expresiones": "Expresiones",
 }
 
-st.set_page_config(page_title="Deutsch Quiz", page_icon="🇩🇪", layout="centered")
+st.set_page_config(page_title="Deutsch Quiz", page_icon="🇩🇪", layout="wide")
 
 # ==========================================================================
 # CSS global generado a partir de THEME
@@ -102,6 +102,15 @@ st.markdown(
     .stApp {{
         background: {THEME["background"]};
         color: {THEME["text_color"]};
+    }}
+
+    /* Con layout="wide", esto controla cuánto ancho usa el contenido */
+    .block-container {{
+        max-width: 1100px;
+        padding-top: 2.5em;
+        padding-left: 2em;
+        padding-right: 2em;
+        margin: 0 auto;
     }}
 
     div.stButton > button {{
@@ -388,7 +397,7 @@ st.markdown(
 # ==========================================================================
 
 if st.session_state.vista == "nivel":
-    cols = st.columns(3)
+    cols = st.columns(3, gap="medium")
     for col, nivel in zip(cols, NIVELES):
         tarjetas_n, _ = cargar_nivel(nivel)
         with col:
